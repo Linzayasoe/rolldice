@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Roll Dice</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  </head>
+  <body class="flex justify-center items-center min-h-screen bg-black">
+    <!-- card -->
+    <div class="flex justify-center items-center">
+      <div
+        class="flex items-center flex-col w-[700px] h-[600px] rounded-lg p-6 border-2 border-grey-200 bg-white backdrop-blur-md"
+      >
+      <!-- title -->
+      <div class="text-4xl font-bold text-green-500">Roll Dicer</div>
+      <!-- Name-->
+        <div class="mt-10 text-2xl font-medium">Select a number of dice to take a row</div>
+  
+      <!-- Dice number -->
+      <div id="userSelection" class="flex space-x-7 text-2xl mt-12">
+          <div data-number="1" class="dice-btn px-3 py-2 border border-solid rounded-lg hover:bg-green-500 hover:text-white cursor-pointer">1</div>
+          <div data-number="2" class="dice-btn px-3 py-2 border border-solid rounded-lg hover:bg-green-500 hover:text-white cursor-pointer">2</div>
+          <div data-number="3" class="dice-btn px-3 py-2 border border-solid rounded-lg hover:bg-green-500 hover:text-white cursor-pointer">3</div>
+          <div data-number="4" class="dice-btn px-3 py-2 border border-solid rounded-lg hover:bg-green-500 hover:text-white cursor-pointer">4</div>
+          <div data-number="5" class="dice-btn px-3 py-2 border border-solid rounded-lg hover:bg-green-500 hover:text-white cursor-pointer">5</div>
+          <div data-number="6" class="dice-btn px-3 py-2 border border-solid rounded-lg hover:bg-green-500 hover:text-white cursor-pointer">6</div>
+      </div>
+      <!-- button -->
+       <button id="roll-btn" class="mt-12 text-xl font-medium border border-solid bg-green-500 text-white px-5 py-2 rounded-lg cursor-pointer hover:text-green-500 hover:bg-white transition-all duration-300">Roll</button>
+
+      <!-- Images -->
+      <div id="diceImages" class='flex space-x-4'></div>
+      <!-- Total number -->
+      <div class="mt-10 text-2xl font-bold">Total Number: <span id='totalNum' class="text-green-500 font-bold">0</span></div>
+      <div>
+       
+      </div>
+    </div>
+
+    <script>
+
+      const dice={
+        1:"dice1.png",
+        2:"dice2.png",
+        3:"dice3.png",
+        4:"dice4.png",
+        5:"dice5.png",
+        6:"dice6.png",
+      };
+     
+      let userSelection = document.getElementById("userSelection"); //user selects the number of dice
+      let selectedNum = 1;
+     
+      // User Select Click Function
+      userSelection.addEventListener("click",function(event){
+
+         if(!event.target.dataset.number){
+        return;
+      }//prevents the whole parent div from turning green
+
+
+        selectedNum = Number(event.target.dataset.number) //user selection number
+        userSelection.querySelectorAll("div").forEach(element => {
+          element.classList.remove('bg-green-500','text-white');
+          event.target.classList.add('bg-green-500','text-white')
+        });
+      })
+
+      // Display Dice Img Depend On User Selection
+      const rollBtn = document.getElementById("roll-btn");
+      const diceImages = document.getElementById("diceImages");
+      
+
+      rollBtn.addEventListener("click",()=>{
+        diceImages.innerHTML = '';
+        let total = 0; 
+        for(let i = 0; i < selectedNum;i++){
+         
+         const randomNum = Math.floor(Math.random() * 6) +1; //generate a num between 1 to 6 for dice
+         const img = document.createElement("img");
+         img.src = dice[randomNum]; //dice value png
+         img.alt = `Dice ${randomNum}`;
+         img.classList.add("w-16",'h-16','mt-12')
+         diceImages.appendChild(img);
+         total += randomNum;
+
+         
+         // Total Number
+         const totalNum = document.getElementById('totalNum');
+         totalNum.textContent = total;
+        }
+      })
+
+
+    </script>
+  </body>
+</html>
